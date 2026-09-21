@@ -37,6 +37,9 @@ module Zephyr {
         @ Import the allocation interface
         import Svc.BufferAllocation
 
+        @ Rate-group tick (must be connected): emits the deferred recovery SUCCESS once the in-progress receive completes or DEFERRED_TX_RECOVERY_TICKS elapse
+        sync input port run: Svc.Sched
+
         @ Coding rate: number of parity bits per 4 bit
         param CODING_RATE: LoRaCodingRate default LoRaCodingRate.CR_4_5
 
@@ -78,6 +81,9 @@ module Zephyr {
 
         @ Last received SNR
         telemetry LastSnr: I8 update on change
+
+        @ Count of transmits deferred because a receive was in progress
+        telemetry TransmitsDeferred: U32 update on change
 
         ###############################################################################
         # Standard AC Ports: Required for Channels, Events, Commands, and Parameters  #
